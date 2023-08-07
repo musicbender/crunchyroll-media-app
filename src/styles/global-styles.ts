@@ -1,7 +1,7 @@
 import { createGlobalStyle } from 'styled-components';
 import { media } from './breakpoints';
 import { normalize } from 'styled-normalize';
-import { Theme } from '@types';
+import { Theme } from '../types';
 
 type GlobalStyles = {
   theme: Theme;
@@ -13,7 +13,7 @@ export default createGlobalStyle<GlobalStyles>`
   html {
     -webkit-font-smoothing: antialiased;
     margin: 0;
-    background: ${(props) => props.theme.modes.dark.bg}; 
+    background: white,
     box-sizing: border-box;
     font-size: 16px;
     ${media.tablet`

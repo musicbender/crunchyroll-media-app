@@ -1,6 +1,6 @@
-import { MediaContentResponse } from '../types';
+import { MediaContentItem } from '../types';
 
-const mockData: MediaContentResponse[] = [
+const mockData: MediaContentItem[] = [
   {
     id: 1,
     title: 'Cowboy Bebop',

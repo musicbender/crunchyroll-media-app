@@ -50,7 +50,7 @@ module.exports = {
     ],
     '@typescript-eslint/no-shadow': ['error', { ignoreTypeValueShadow: true }],
     '@typescript-eslint/no-var-requires': 'off',
-    '@typescript-eslint/consistent-type-definitions': ['error', 'type'],
+    '@typescript-eslint/consistent-type-definitions': 'off',
     camelcase: 'off',
     '@typescript-eslint/camelcase': 'off',
     'react/display-name': 'off',

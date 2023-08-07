@@ -1,24 +1,56 @@
-import { makeObservable, observable } from 'mobx';
-import { MediaContentResponse } from '../types';
+import { makeAutoObservable, onBecomeObserved, onBecomeUnobserved, runInAction } from 'mobx';
+import { MediaContentItem } from '../types';
+import { ObservableInput, Subscription, catchError, from, of, switchMap, tap } from 'rxjs';
+import { toStream } from 'mobx-utils';
+import MediaService from '../services/mock-media-api';
+import MediaContent from '../models/media-content';
 
-interface MediaObservables {
-  mediaContent: MediaContentResponse[];
+interface MediaStoreState {
+  mediaContent: MediaContent[];
+  isLoading: boolean;
+  error: string | null;
 }
 
 class MediaStore {
-  mediaContent: MediaContentResponse[] = [];
+  private readonly mediaService = new MediaService();
+
+  private state: MediaStoreState = {
+    mediaContent: [],
+    isLoading: false,
+    error: null,
+  };
+
+  private subscription$?: Subscription;
 
   constructor() {
-    makeObservable<MediaObservables>(this, {
-      mediaContent: observable,
+    makeAutoObservable(this, undefined, { autoBind: true });
+
+    onBecomeObserved(this.state, 'mediaContent', () => {
+      this.subscription$ = this.initFetch();
+    });
+
+    onBecomeUnobserved(this.state, 'mediaContent', () => {
+      this.subscription$?.unsubscribe();
     });
   }
 
-  add(mediaContentItem: MediaContentResponse): void {
+  get mediaContent() {
+    return this.state.mediaContent;
+  }
+
+  get isLoading() {
+    return this.state.isLoading;
+  }
+
+  get error() {
+    return this.state.error;
+  }
+
+  add(mediaContentItem: MediaContentItem): void {
     this.mediaContent.push(mediaContentItem);
   }
 
-  update(mediaContentItem: MediaContentResponse) {
+  update(mediaContentItem: MediaContentItem) {
     for (let i = 0; i < this.mediaContent.length; i++) {
       if (this.mediaContent[i].id === mediaContentItem.id) {
         this.mediaContent.splice(i, 1, mediaContentItem);
@@ -36,6 +68,38 @@ class MediaStore {
         break;
       }
     }
+  }
+
+  private initFetch() {
+    return from(toStream(() => [], true) as ObservableInput<[]>)
+      .pipe(
+        tap(() => {
+          runInAction(() => {
+            this.state.isLoading = true;
+            this.state.error = null;
+          });
+        }),
+        switchMap(() => {
+          return this.mediaService.getMediaContent$();
+        }),
+        tap((res) => {
+          runInAction(() => {
+            this.state.isLoading = false;
+            this.state.mediaContent = res;
+          });
+        }),
+        catchError((err) => {
+          console.error(err);
+
+          runInAction(() => {
+            this.state.isLoading = false;
+            this.state.error = err.message;
+          });
+
+          return of([]);
+        }),
+      )
+      .subscribe();
   }
 }
 

@@ -1,6 +1,6 @@
-import { MediaContentResponse } from '../types';
+import { MediaContentItem } from '../types';
 
-class MediaContent {
+export default class MediaContent {
   id?: number;
   title?: string;
   type?: 'movie' | 'tv-show' | 'game' | 'comic' | 'book';
@@ -8,7 +8,7 @@ class MediaContent {
   releaseYear?: number;
   rating?: number;
 
-  constructor(mediaContent: MediaContentResponse) {
+  constructor(mediaContent: MediaContentItem) {
     this.id = mediaContent.id;
     this.title = mediaContent.title;
     this.type = mediaContent.type;
@@ -17,5 +17,3 @@ class MediaContent {
     this.rating = mediaContent.rating;
   }
 }
-
-export default MediaContent;

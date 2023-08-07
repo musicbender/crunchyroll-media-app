@@ -1,7 +1,7 @@
 import { css, ThemedCssFunction } from 'styled-components';
-import { IBreakPoints, Theme } from '@types';
+import { BreakPoints, Theme } from '../types';
 
-export const sizes: IBreakPoints = {
+export const sizes: BreakPoints = {
   desktopXXL: 1920,
   desktopXL: 1600,
   desktopL: 1320,
