@@ -11,6 +11,7 @@ const theme = {
     darkerGrey: '#242424',
     darkGrey: '#393939',
     grey: '#555555',
+    lightGrey: rgb(150, 150, 150),
     error: '#E8233A',
     orangeBase: rgb(244, 117, 33),
     orangeDark: rgb(229, 106, 23),
