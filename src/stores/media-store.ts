@@ -1,14 +1,24 @@
 import { makeAutoObservable, onBecomeObserved, onBecomeUnobserved, runInAction } from 'mobx';
 import { MediaContentItem } from '../types';
-import { ObservableInput, Subscription, catchError, from, of, switchMap, tap } from 'rxjs';
+import {
+  Observable,
+  ObservableInput,
+  Subscription,
+  catchError,
+  from,
+  mergeMap,
+  of,
+  tap,
+} from 'rxjs';
 import { toStream } from 'mobx-utils';
-import MediaService from '../services/mock-media-api';
+import MediaService from '../services/media-service';
 import MediaContent from '../models/media-content';
 
 interface MediaStoreState {
   mediaContent: MediaContent[];
   isLoading: boolean;
   error: string | null;
+  trigger: boolean;
 }
 
 class MediaStore {
@@ -18,6 +28,7 @@ class MediaStore {
     mediaContent: [],
     isLoading: false,
     error: null,
+    trigger: false,
   };
 
   private subscription$?: Subscription;
@@ -46,17 +57,37 @@ class MediaStore {
     return this.state.error;
   }
 
-  add(mediaContentItem: MediaContentItem): void {
-    this.mediaContent.push(mediaContentItem);
+  add(mediaContentItem: MediaContent): void {
+    this.state.isLoading = true;
+    this.state.error = null;
+
+    this.subscribe(
+      this.mediaService.addMediaItem$(mediaContentItem),
+      (res: MediaContent | number) => {
+        runInAction(() => {
+          const addedItem = res as MediaContent;
+          this.state.mediaContent.push(addedItem);
+        });
+      },
+    );
   }
 
   update(mediaContentItem: MediaContentItem) {
-    for (let i = 0; i < this.mediaContent.length; i++) {
-      if (this.mediaContent[i].id === mediaContentItem.id) {
-        this.mediaContent.splice(i, 1, mediaContentItem);
-        break;
-      }
-    }
+    this.subscribe(
+      this.mediaService.addMediaItem$(mediaContentItem),
+      (res: MediaContent | number) => {
+        runInAction(() => {
+          const updatedItem = res as MediaContent;
+
+          for (let i = 0; i < this.mediaContent.length; i++) {
+            if (this.mediaContent[i].id === updatedItem.id) {
+              this.mediaContent.splice(i, 1, updatedItem);
+              break;
+            }
+          }
+        });
+      },
+    );
   }
 
   delete(id: number): void {
@@ -68,10 +99,23 @@ class MediaStore {
         break;
       }
     }
+
+    this.subscribe(this.mediaService.deleteMediaItem$(id), (res: MediaContent | number) => {
+      runInAction(() => {
+        const deletedId = res as number;
+
+        for (let i = 0; i < this.mediaContent.length; i++) {
+          if (this.mediaContent[i].id === deletedId) {
+            this.mediaContent.splice(i, 1);
+            break;
+          }
+        }
+      });
+    });
   }
 
   private initFetch() {
-    return from(toStream(() => [], true) as ObservableInput<[]>)
+    return from(toStream(() => [this.state.trigger], true) as ObservableInput<[boolean]>)
       .pipe(
         tap(() => {
           runInAction(() => {
@@ -79,9 +123,7 @@ class MediaStore {
             this.state.error = null;
           });
         }),
-        switchMap(() => {
-          return this.mediaService.getMediaContent$();
-        }),
+        mergeMap(() => this.mediaService.getMediaContent$()),
         tap((res) => {
           runInAction(() => {
             this.state.isLoading = false;
@@ -96,10 +138,31 @@ class MediaStore {
             this.state.error = err.message;
           });
 
-          return of([]);
+          return of([this.state.trigger]);
         }),
       )
       .subscribe();
+  }
+
+  private subscribe(
+    stream: Observable<MediaContent | number>,
+    onNext: (res: MediaContent | number) => void,
+  ) {
+    stream.subscribe({
+      next: onNext,
+      error: (err) => {
+        console.error(err);
+
+        runInAction(() => {
+          this.state.error = err.message;
+        });
+      },
+      complete: () => {
+        runInAction(() => {
+          this.state.isLoading = false;
+        });
+      },
+    });
   }
 }
 
