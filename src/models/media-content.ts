@@ -1,12 +1,12 @@
 import { MediaContentItem } from '../types';
 
 export default class MediaContent {
-  id?: number;
-  title?: string;
-  type?: 'movie' | 'tv-show' | 'game' | 'comic' | 'book';
-  genre?: string;
-  releaseYear?: number;
-  rating?: number;
+  id: number;
+  title: string;
+  type: 'movie' | 'tv-show' | 'game' | 'comic' | 'book';
+  genre: string;
+  releaseYear: number;
+  rating: number;
 
   constructor(mediaContent: MediaContentItem) {
     this.id = mediaContent.id;

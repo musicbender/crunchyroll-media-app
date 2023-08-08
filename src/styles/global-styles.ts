@@ -2,6 +2,8 @@ import { createGlobalStyle } from 'styled-components';
 import { media } from './breakpoints';
 import { normalize } from 'styled-normalize';
 import { Theme } from '../types';
+import theme from './theme';
+import { rem } from 'polished';
 
 type GlobalStyles = {
   theme: Theme;
@@ -10,37 +12,46 @@ type GlobalStyles = {
 
 export default createGlobalStyle<GlobalStyles>`
   ${normalize}
+
   html {
     -webkit-font-smoothing: antialiased;
     margin: 0;
-    background: white,
+    background: ${theme.colors.offWhite};
     box-sizing: border-box;
-    font-size: 16px;
+    font-size: ${rem(16)};
+
     ${media.tablet`
-     font-size: 17px;
+     font-size: ${rem(17)};
     `}
   }
+
   body {
     position: relative;
     padding: 0;
+
     &::-webkit-scrollbar {
-      width: 3px;
+      width: ${rem(0)};
       background-color: transparent;
     }
+
     &::-webkit-scrollbar-thumb {
       background-color: rgba(255, 255, 255, 0.17);
     }
   }
+
   *, *:before, *:after {
     box-sizing: inherit;
   }
+
   p, h1, h2, h3, h4, h5, h6, div, input, form, span {
-    font-family: "Inconsolata", "serif";
-    color: rgba(255, 255, 255, 0.87);
+    font-family: "Lato", "sans-serif";
+    font-weight: 400;
+    color: ${theme.colors.darkBlack};
   }
+
   p {
     font-size: 1rem;
     line-height: 2.5;
-    letter-spacing: 2px;
+    letter-spacing: ${rem(2)};
   }
 `;

@@ -73,6 +73,11 @@ class MediaStore {
   }
 
   update(mediaContentItem: MediaContentItem) {
+    if (!this.mediaContent.length) {
+      this.add(mediaContentItem);
+      return;
+    }
+
     this.subscribe(
       this.mediaService.addMediaItem$(mediaContentItem),
       (res: MediaContent | number) => {
@@ -92,13 +97,6 @@ class MediaStore {
 
   delete(id: number): void {
     if (!this.mediaContent.length) return;
-
-    for (let i = 0; i < this.mediaContent.length; i++) {
-      if (this.mediaContent[i].id === id) {
-        this.mediaContent.splice(i, 1);
-        break;
-      }
-    }
 
     this.subscribe(this.mediaService.deleteMediaItem$(id), (res: MediaContent | number) => {
       runInAction(() => {
