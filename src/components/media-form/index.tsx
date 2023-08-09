@@ -1,15 +1,17 @@
 import { ChangeEvent, FC, useMemo } from 'react';
-import { MediaFormWrapper } from './styles';
+import { FormTitle, MediaFormWrapper } from './styles';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useStore } from '../../stores';
 import { observer } from 'mobx-react';
 import { Controller, useForm } from 'react-hook-form';
 import { MediaContentGenre, MediaContentType } from '../../types';
-import { formInputConf } from '../../constants/form-input-config';
+import { formInputConf, mediaGenres, mediaTypes } from '../../constants/form-input-config';
 import { Box } from '@rebass/grid';
 import InputField from '../common/input-field';
 import { rem } from 'polished';
 import formSchema from './schema';
+import SelectInput from '../common/select';
+import { mediaGenreContent, mediaTypeContent } from '../../constants/content';
 
 interface FormInputs {
   title: string;
@@ -56,9 +58,30 @@ const MediaForm: FC = () => {
   return (
     <MediaFormWrapper>
       <form onSubmit={handleSave}>
+        <FormTitle>Edit Media Content</FormTitle>
+
         {formInputConf.map((input) => {
           if (input.type === 'selector') {
-            return <div>selector</div>;
+            return (
+              <Box mb={rem(24)} key={input.name + 'form-input'}>
+                <Controller
+                  name={input.name as FormInputsKey}
+                  control={control}
+                  render={({ field }) => (
+                    <SelectInput
+                      items={input.name === 'type' ? mediaTypes : mediaGenres}
+                      content={input.name === 'type' ? mediaTypeContent : mediaGenreContent}
+                      label={input.label}
+                      placeholder={input.placeholder}
+                      value={field.value as string}
+                      onChange={(value: string) => {
+                        handleValue(field.name, value);
+                      }}
+                    />
+                  )}
+                />
+              </Box>
+            );
           } else {
             return (
               <Box mb={rem(24)} key={input.name + 'form-input'}>
@@ -84,6 +107,9 @@ const MediaForm: FC = () => {
             );
           }
         })}
+        <Box>
+          <button type="submit">Save</button>
+        </Box>
       </form>
     </MediaFormWrapper>
   );

@@ -17,6 +17,7 @@ const Modal: FC<Props> = ({ isOpen, onClose, children }) => {
       if (!el) {
         const portalEl = document.createElement('div');
         portalEl.className = 'modal-portal';
+        portalEl.id = 'modal-portal';
         document.body.appendChild(portalEl);
         setEl(portalEl);
       }

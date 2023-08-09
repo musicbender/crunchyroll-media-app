@@ -6,7 +6,7 @@ import MediaItem from '../media-item';
 import { InnerWrapper, MediaListWrapper } from './styles';
 import Modal from '../common/modal';
 import MediaForm from '../media-form';
-
+../common/select
 const MediaList: FC = () => {
   const { mediaData, mediaView } = useStore();
 

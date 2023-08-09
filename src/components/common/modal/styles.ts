@@ -100,7 +100,7 @@ export const ModalInner = styled.div<ModalProps>`
     `}
 
   @media (min-width: 767px), (orientation: landscape) {
-    top: 50%;
+    top: 40%;
     max-width: 38rem;
     transform: translate3d(-50%, -50%, 0);
     animation: ${showInner} ${duration}ms ease-in-out;
