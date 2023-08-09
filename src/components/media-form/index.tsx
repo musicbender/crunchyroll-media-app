@@ -43,6 +43,8 @@ const MediaForm: FC<Props> = ({ onClose }) => {
     return mediaData.findOne(mediaView.editId);
   }, [mediaView.editId]);
 
+  const isNew = !initialData;
+
   const {
     formState: { isDirty },
     control,
@@ -85,13 +87,13 @@ const MediaForm: FC<Props> = ({ onClose }) => {
   const onSave = (data: FormInputs) => {
     setHasSaved(false);
 
-    const id = initialData
-      ? initialData.id
-      : +generateUniqueId({
+    const id = isNew
+      ? +generateUniqueId({
           length: 7,
           useLetters: false,
           useNumbers: true,
-        });
+        })
+      : initialData.id;
 
     const newItem = new MediaContent({
       id,
@@ -102,10 +104,10 @@ const MediaForm: FC<Props> = ({ onClose }) => {
       rating: data.rating,
     });
 
-    if (initialData) {
-      mediaData.update(newItem);
-    } else {
+    if (isNew) {
       mediaData.add(newItem);
+    } else {
+      mediaData.update(newItem);
     }
 
     if (mediaData.error) {
@@ -122,7 +124,7 @@ const MediaForm: FC<Props> = ({ onClose }) => {
       </CloseButton>
       {!!globalError && <ErrorText>{globalError}</ErrorText>}
       <form onSubmit={handleSubmit(onSave)}>
-        <FormTitle>Edit Media Content</FormTitle>
+        <FormTitle>{isNew ? 'Add' : 'Edit'} Media Content</FormTitle>
 
         {formInputConf.map((input) => {
           if (input.type === 'selector') {
@@ -176,7 +178,7 @@ const MediaForm: FC<Props> = ({ onClose }) => {
             );
           }
         })}
-        <Box>
+        <Box my={rem(32)}>
           <Button type="submit" disabled={!isDirty} isLoading={mediaData.isSaving}>
             Save
           </Button>

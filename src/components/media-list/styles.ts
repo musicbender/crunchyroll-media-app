@@ -25,3 +25,7 @@ export const InnerWrapper = styled.div`
     grid-row-gap: 2rem;
   `}
 `;
+
+export const AddItemText = styled.span`
+  vertical-align: ${rem(4)};
+`;

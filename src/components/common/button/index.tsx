@@ -2,8 +2,8 @@ import { ReactNode } from 'react';
 import { BtnWrapper, InnerWrapper, StyledSpinner } from './styles';
 
 type Props = {
-  type: 'button' | 'submit' | 'reset';
-  disabled: boolean;
+  type?: 'button' | 'submit' | 'reset';
+  disabled?: boolean;
   isLoading?: boolean;
   children: ReactNode;
   handleClick?: (event: React.MouseEvent) => any;

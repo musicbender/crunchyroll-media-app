@@ -3,35 +3,34 @@ import { FC } from 'react';
 import { useStore } from '../../stores';
 import MediaContent from '../../models/media-content';
 import MediaItem from '../media-item';
-import { InnerWrapper, MediaListWrapper } from './styles';
+import { AddItemText, InnerWrapper, MediaListWrapper } from './styles';
 import Modal from '../common/modal';
 import MediaForm from '../media-form';
 import Spinner from '../icons/spinner';
+import Button from '../common/button';
+import { Box } from '@rebass/grid';
+import { PlusIcon } from '@radix-ui/react-icons';
+import { rem } from 'polished';
 const MediaList: FC = () => {
   const { mediaData, mediaView } = useStore();
-
-  // mock
-  const handleClick = () => {
-    mediaData.add(
-      new MediaContent({
-        id: 1111111,
-        title: 'Wut wut',
-        type: 'movie',
-        genre: 'action',
-        releaseYear: 1982,
-        rating: 1,
-      }),
-    );
-  };
 
   const handleEdit = (isEditing = false, id?: number): void => {
     mediaView.isEditing = isEditing;
     mediaView.editId = id || null;
   };
 
+  const handleAdd = () => {
+    mediaView.isEditing = true;
+    mediaView.editId = null;
+  };
+
   return (
     <MediaListWrapper>
-      <button onClick={handleClick}>add</button>
+      <Box mb={rem(32)}>
+        <Button handleClick={handleAdd}>
+          <PlusIcon width={rem(20)} height={rem(20)} /> <AddItemText>Add Item</AddItemText>
+        </Button>
+      </Box>
       {!!mediaData.mediaContent?.length && (
         <InnerWrapper>
           {[...mediaData.mediaContent.slice()].map((item: MediaContent, index: number) => (
