@@ -17,6 +17,7 @@ import MediaContent from '../models/media-content';
 interface MediaDataStoreState {
   mediaContent: MediaContent[];
   isLoading: boolean;
+  isSaving: boolean;
   error: string | null;
   trigger: boolean;
 }
@@ -27,6 +28,7 @@ class MediaDataStore {
   private state: MediaDataStoreState = {
     mediaContent: [],
     isLoading: false,
+    isSaving: false,
     error: null,
     trigger: false,
   };
@@ -53,6 +55,10 @@ class MediaDataStore {
     return this.state.isLoading;
   }
 
+  public get isSaving() {
+    return this.state.isSaving;
+  }
+
   public get error() {
     return this.state.error;
   }
@@ -63,7 +69,7 @@ class MediaDataStore {
   }
 
   public add(mediaContentItem: MediaContent): void {
-    this.state.isLoading = true;
+    this.state.isSaving = true;
     this.state.error = null;
 
     this.subscribe(
@@ -83,12 +89,14 @@ class MediaDataStore {
       return;
     }
 
+    this.state.isSaving = true;
+    this.state.error = null;
+
     this.subscribe(
-      this.mediaService.addMediaItem$(mediaContentItem),
+      this.mediaService.updateMediaItem$(mediaContentItem),
       (res: MediaContent | number) => {
         runInAction(() => {
           const updatedItem = res as MediaContent;
-
           for (let i = 0; i < this.mediaContent.length; i++) {
             if (this.mediaContent[i].id === updatedItem.id) {
               this.mediaContent.splice(i, 1, updatedItem);
@@ -102,6 +110,9 @@ class MediaDataStore {
 
   public delete(id: number): void {
     if (!this.mediaContent.length) return;
+
+    this.state.isSaving = true;
+    this.state.error = null;
 
     this.subscribe(this.mediaService.deleteMediaItem$(id), (res: MediaContent | number) => {
       runInAction(() => {
@@ -162,7 +173,7 @@ class MediaDataStore {
       },
       complete: () => {
         runInAction(() => {
-          this.state.isLoading = false;
+          this.state.isSaving = false;
         });
       },
     });

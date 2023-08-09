@@ -1,6 +1,11 @@
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 import theme from '../../../styles/theme';
 import { rem, rgba } from 'polished';
+import Spinner from '../../icons/spinner';
+
+interface BtnProps {
+  isLoading?: boolean;
+}
 
 export const BtnWrapper = styled.button`
   padding: 1em 2em;
@@ -30,4 +35,22 @@ export const BtnWrapper = styled.button`
     opacity: 0.5;
     pointer-events: none;
   }
+`;
+
+export const InnerWrapper = styled.span<BtnProps>`
+  position: relative;
+
+  ${({ isLoading }) =>
+    isLoading &&
+    css`
+      margin-left: 1.5rem;
+    `}
+`;
+
+export const StyledSpinner = styled(Spinner).attrs({
+  size: 24,
+})`
+  display: inline-block;
+  position: absolute;
+  left: -${rem(28)};
 `;

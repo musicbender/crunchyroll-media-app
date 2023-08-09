@@ -1,4 +1,4 @@
-import { ChangeEvent, FC, useMemo } from 'react';
+import { ChangeEvent, FC, useEffect, useMemo, useState } from 'react';
 import { CloseButton, FormTitle, MediaFormWrapper, SelectWrapper } from './styles';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useStore } from '../../stores';
@@ -14,6 +14,10 @@ import { mediaGenreContent, mediaTypeContent } from '../../constants/content';
 import SelectInput from '../common/select-input';
 import Button from '../common/button';
 import { Cross2Icon } from '@radix-ui/react-icons';
+import MediaContent from '../../models/media-content';
+import generateUniqueId from 'generate-unique-id';
+import { ErrorText } from '../common/input-field/styles';
+import { reaction } from 'mobx';
 
 interface FormInputs {
   title: string;
@@ -31,6 +35,8 @@ type FormInputsKey = keyof FormInputs;
 
 const MediaForm: FC<Props> = ({ onClose }) => {
   const { mediaData, mediaView } = useStore();
+  const [globalError, setGlobalError] = useState<string | null>(null);
+  const [hasSaved, setHasSaved] = useState(false);
 
   const initialData = useMemo(() => {
     if (!mediaView.editId) return null;
@@ -56,28 +62,57 @@ const MediaForm: FC<Props> = ({ onClose }) => {
     shouldFocusError: true,
   });
 
+  useEffect(() => {
+    return reaction(
+      () => mediaData.isSaving,
+      () => {
+        if (!mediaData.isSaving && hasSaved) {
+          onClose();
+        }
+      },
+      {
+        fireImmediately: false,
+      },
+    );
+  }, [hasSaved]);
+
   const handleValue = (key: FormInputsKey, value: string | number) => {
-    console.log('change value', key, value);
+    setHasSaved(false);
     clearErrors(key);
     setValue(key, value, { shouldDirty: true });
   };
 
   const onSave = (data: FormInputs) => {
-    console.log('saved', data);
-    // console.log('clicked...');
-    // e.preventDefault();
+    setHasSaved(false);
 
-    // console.log('validating?');
-    // handleSubmit(
-    //   (data: FormInputs) => {
-    //     console.log('saved', data);
-    //     return;
-    //   },
-    //   (err) => {
-    //     console.error(err);
-    //     return;
-    //   },
-    // );
+    const id = initialData
+      ? initialData.id
+      : +generateUniqueId({
+          length: 7,
+          useLetters: false,
+          useNumbers: true,
+        });
+
+    const newItem = new MediaContent({
+      id,
+      title: data.title,
+      type: data.type,
+      genre: data.genre,
+      releaseYear: data.releaseYear,
+      rating: data.rating,
+    });
+
+    if (initialData) {
+      mediaData.update(newItem);
+    } else {
+      mediaData.add(newItem);
+    }
+
+    if (mediaData.error) {
+      setGlobalError(mediaData.error);
+    } else {
+      setHasSaved(true);
+    }
   };
 
   return (
@@ -85,6 +120,7 @@ const MediaForm: FC<Props> = ({ onClose }) => {
       <CloseButton onClick={onClose}>
         <Cross2Icon width={rem(20)} height={rem(20)} />
       </CloseButton>
+      {!!globalError && <ErrorText>{globalError}</ErrorText>}
       <form onSubmit={handleSubmit(onSave)}>
         <FormTitle>Edit Media Content</FormTitle>
 
@@ -141,7 +177,7 @@ const MediaForm: FC<Props> = ({ onClose }) => {
           }
         })}
         <Box>
-          <Button type="submit" disabled={!isDirty}>
+          <Button type="submit" disabled={!isDirty} isLoading={mediaData.isSaving}>
             Save
           </Button>
         </Box>

@@ -10,19 +10,21 @@ const formSchema = Yup.object().shape({
   type: Yup.mixed<MediaContentType>().required('Type is required.'),
   genre: Yup.mixed<MediaContentGenre>().required('Genre is required.'),
   releaseYear: Yup.number()
+    .transform((value) => (isNaN(value) ? undefined : value))
     .required('Release year is required.')
-    .test('releaseYear', 'Not a valid year.', (value?: number) => {
+    .test('releaseYear', 'Not a valid year.', (value?: number | string) => {
       if (!!value && String(value).length !== 4) {
         return false;
       }
 
-      if (!!value && value > new Date().getFullYear()) {
+      if (!!value && typeof value === 'number' && value > new Date().getFullYear()) {
         return false;
       }
 
       return true;
     }),
   rating: Yup.number()
+    .transform((value) => (isNaN(value) ? undefined : value))
     .required('Rating year is required.')
     .test('rating', 'Not a valid rating.', (value?: number) => {
       return !!value && value >= 0 && value <= 10;

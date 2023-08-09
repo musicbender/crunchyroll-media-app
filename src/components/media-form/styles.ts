@@ -8,7 +8,7 @@ export const MediaFormWrapper = styled.div`
   top: 0;
   left: 0;
   width: 100%;
-  height: 35rem;
+  height: auto;
   padding: 1rem 2rem;
   background-color: ${theme.colors.white};
   border-radius: ${rem(8)};

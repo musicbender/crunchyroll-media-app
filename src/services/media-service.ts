@@ -27,10 +27,8 @@ export default class MediaService {
 
   addMediaItem$(mediaItem: MediaContent): Observable<MediaContent> {
     const data: MediaContent[] = JSON.parse(LocalStorage.getInLocal(MEDIA_LOCAL_STORAGE_KEY)) || [];
-
     data.push(mediaItem);
     LocalStorage.setInLocal(MEDIA_LOCAL_STORAGE_KEY, JSON.stringify(data));
-
     return of(mediaItem).pipe(delay(MediaService.sleepTimeout));
   }
 

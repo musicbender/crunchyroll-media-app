@@ -83,6 +83,9 @@ export const Input = styled.input<InputFieldProps>`
 `;
 
 export const ErrorText = styled.p`
+  margin: ${rem(4)} 0 0 0;
   padding: ${rem(8)} 0 0 ${rem(16)};
+  font-size: ${rem(12)};
+  line-height: 1;
   color: ${theme.colors.error};
 `;
