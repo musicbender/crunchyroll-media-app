@@ -10,6 +10,7 @@ import {
   SubTitle,
   IconButton,
   ActionIconsWrapper,
+  IconSpinner,
 } from './styles';
 import { Box } from '@rebass/grid';
 import Chip from '../common/chip';
@@ -24,6 +25,8 @@ import theme from '../../styles/theme';
 import { rem } from 'polished';
 import Delete from '../icons/delete';
 import Edit from '../icons/edit';
+import { useStore } from '../../stores';
+import { observer } from 'mobx-react';
 
 interface Props {
   item: MediaContent;
@@ -32,6 +35,8 @@ interface Props {
 }
 
 const MediaItem: FC<Props> = ({ item, index, handleEdit }) => {
+  const { mediaData } = useStore();
+
   const Icon = (() => {
     switch (item.type) {
       case 'movie':
@@ -48,6 +53,10 @@ const MediaItem: FC<Props> = ({ item, index, handleEdit }) => {
         return Question;
     }
   })();
+
+  const handleDelete = () => {
+    mediaData.delete(item.id);
+  };
 
   return (
     <CardWrapper index={index}>
@@ -69,12 +78,17 @@ const MediaItem: FC<Props> = ({ item, index, handleEdit }) => {
         <IconButton onClick={() => handleEdit(true, item.id)}>
           <Edit />
         </IconButton>
-        <IconButton>
-          <Delete />
+        <IconButton onClick={() => handleDelete()}>
+          {/* <IconSpinner size={20} /> */}
+          {mediaData.isDeleting && mediaData.deletingId === item.id ? (
+            <IconSpinner size={20} />
+          ) : (
+            <Delete />
+          )}
         </IconButton>
       </ActionIconsWrapper>
     </CardWrapper>
   );
 };
 
-export default MediaItem;
+export default observer(MediaItem);

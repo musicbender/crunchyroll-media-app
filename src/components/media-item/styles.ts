@@ -2,6 +2,7 @@ import { rem, rgba } from 'polished';
 import styled, { keyframes } from 'styled-components';
 import { media } from '../../styles/breakpoints';
 import theme from '../../styles/theme';
+import Spinner from '../icons/spinner';
 
 interface CardWrapperProps {
   index: number;
@@ -115,4 +116,10 @@ export const IconButton = styled.button`
     left: 50%;
     transform: translate(-50%, -50%);
   }
+`;
+
+export const IconSpinner = styled(Spinner)`
+  position: absolute;
+  top: -${rem(8)};
+  left: 0;
 `;

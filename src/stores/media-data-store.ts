@@ -18,6 +18,7 @@ interface MediaDataStoreState {
   mediaContent: MediaContent[];
   isLoading: boolean;
   isSaving: boolean;
+  deletingId: number | null;
   error: string | null;
   trigger: boolean;
 }
@@ -29,6 +30,7 @@ class MediaDataStore {
     mediaContent: [],
     isLoading: false,
     isSaving: false,
+    deletingId: null,
     error: null,
     trigger: false,
   };
@@ -57,6 +59,14 @@ class MediaDataStore {
 
   public get isSaving() {
     return this.state.isSaving;
+  }
+
+  public get isDeleting() {
+    return !!this.state.deletingId;
+  }
+
+  public get deletingId() {
+    return this.state.deletingId;
   }
 
   public get error() {
@@ -111,7 +121,7 @@ class MediaDataStore {
   public delete(id: number): void {
     if (!this.mediaContent.length) return;
 
-    this.state.isSaving = true;
+    this.state.deletingId = id;
     this.state.error = null;
 
     this.subscribe(this.mediaService.deleteMediaItem$(id), (res: MediaContent | number) => {
@@ -174,6 +184,7 @@ class MediaDataStore {
       complete: () => {
         runInAction(() => {
           this.state.isSaving = false;
+          this.state.deletingId = null;
         });
       },
     });

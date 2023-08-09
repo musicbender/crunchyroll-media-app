@@ -3,7 +3,7 @@ import { FC } from 'react';
 import { useStore } from '../../stores';
 import MediaContent from '../../models/media-content';
 import MediaItem from '../media-item';
-import { AddItemText, InnerWrapper, MediaListWrapper } from './styles';
+import { AddItemText, CenterWrapper, InnerWrapper, MediaListWrapper, NoItemsText } from './styles';
 import Modal from '../common/modal';
 import MediaForm from '../media-form';
 import Spinner from '../icons/spinner';
@@ -11,6 +11,7 @@ import Button from '../common/button';
 import { Box } from '@rebass/grid';
 import { PlusIcon } from '@radix-ui/react-icons';
 import { rem } from 'polished';
+import theme from '../../styles/theme';
 const MediaList: FC = () => {
   const { mediaData, mediaView } = useStore();
 
@@ -38,7 +39,16 @@ const MediaList: FC = () => {
           ))}
         </InnerWrapper>
       )}
-      {mediaData.isLoading && <Spinner />}
+      {mediaData.isLoading && (
+        <CenterWrapper>
+          <Spinner fill={theme.colors.orangeBase} />
+        </CenterWrapper>
+      )}
+      {!mediaData.mediaContent?.length && !mediaData.isLoading && (
+        <CenterWrapper>
+          <NoItemsText>No items to show. </NoItemsText>
+        </CenterWrapper>
+      )}
       <Modal isOpen={mediaView.isEditing} onClose={() => handleEdit(false)}>
         <MediaForm onClose={() => handleEdit(false)} />
       </Modal>

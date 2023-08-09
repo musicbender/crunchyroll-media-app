@@ -1,6 +1,7 @@
 import styled from 'styled-components';
 import { media, sizes } from '../../styles/breakpoints';
 import { rem } from 'polished';
+import theme from '../../styles/theme';
 
 export const MediaListWrapper = styled.div`
   margin: 1rem auto 1.45rem;
@@ -28,4 +29,18 @@ export const InnerWrapper = styled.div`
 
 export const AddItemText = styled.span`
   vertical-align: ${rem(4)};
+`;
+
+export const CenterWrapper = styled.div`
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  margin: ${rem(250)} auto ${rem(16)};
+  text-align: center;
+  transform: translate(-50%, -50%);
+`;
+
+export const NoItemsText = styled.h2`
+  font-size: ${rem(36)};
+  color: ${theme.colors.lightGrey};
 `;
