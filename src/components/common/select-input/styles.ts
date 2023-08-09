@@ -2,21 +2,42 @@ import styled, { css } from 'styled-components';
 import theme from '../../../styles/theme';
 
 import * as Select from '@radix-ui/react-select';
-import { rem } from 'polished';
+import { rem, rgba } from 'polished';
 
 export const SelectTrigger = styled(Select.SelectTrigger)`
   display: inline-flex;
+  width: 100%;
+  padding: ${rem(12)} ${rem(16)};
   align-items: center;
   justify-content: center;
-  border-radius: 4;
-  padding: 0 15px;
-  font-size: 13px;
+  font-size: ${rem(14)};
   line-height: 1;
-  height: 35px;
-  gap: 5;
-  background-color: white;
+  height: ${rem(50)};
+  gap: ${rem(4)};
   color: black;
-  box-shadow: 0 2px 10px ${theme.colors.black};
+  font-size: ${rem(18)};
+  box-shadow: none;
+  background-color: ${theme.colors.white};
+  border: ${rem(1)} solid ${theme.colors.grey};
+  border-radius: ${rem(8)};
+  line-height: ${rem(24)};
+
+  &::placeholder {
+    color: ${theme.colors.grey};
+    font-size: ${rem(18)};
+    opacity: 1;
+  }
+
+  &:focus,
+  &:active {
+    border-color: ${theme.colors.orangeDark};
+  }
+
+  &:focus-visible,
+  &[data-state='open'] {
+    border-color: ${theme.colors.orangeDark};
+    outline: 1px solid ${theme.colors.orangeDark};
+  }
 `;
 
 export const SelectIcon = styled(Select.SelectIcon)`
@@ -25,6 +46,7 @@ export const SelectIcon = styled(Select.SelectIcon)`
 
 export const SelectContent = styled(Select.Content)`
   overflow: hidden;
+  width: ${rem(250)};
   background-color: white;
   border-radius: ${rem(8)};
   z-index: 3;
@@ -34,42 +56,36 @@ export const SelectContent = styled(Select.Content)`
 `;
 
 export const SelectViewport = styled(Select.Viewport)`
-  padding: ${rem(5)};
+  padding: ${rem(4)};
 `;
 
 export const StyledItem = styled(Select.Item)`
-  font-size: 13;
+  display: flex;
+  position: relative;
+  height: 25;
+  padding: ${rem(8)} ${rem(36)} ${rem(8)} ${rem(24)};
+  margin-bottom: ${rem(8)};
+  font-size: ${rem(16)};
   line-height: 1;
   border-radius: 3;
-  display: flex;
   align-items: center;
-  height: 25;
-  padding: 0 35px 0 25px;
-  position: relative;
+  outline: 'none';
+
+  &:first-child {
+    margin-top: ${rem(8)};
+  }
 
   &[data-highlighted] {
-    outline: 'none';
-    background-color: ${theme.colors.orangeBase};
+    outline: none;
+    background-color: ${rgba(theme.colors.orangeBase, 0.33)};
     color: ${theme.colors.black};
   }
-`;
-
-export const SelectLabel = styled(Select.Label)`
-  padding: 0 25px;
-  font-size: 12;
-  line-height: 25px;
-`;
-
-export const SelectSeparator = styled(Select.Separator)`
-  height: ${rem(1)};
-  background-color: ${theme.colors.grey};
-  margin: ${rem(5)};
 `;
 
 export const StyledItemIndicator = styled(Select.ItemIndicator)`
   position: absolute;
   left: 0;
-  width: 25;
+  width: ${rem(24)};
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -79,7 +95,7 @@ const scrollButtonStyles = css`
   display: flex;
   align-items: center;
   justify-content: center;
-  height: 25;
+  height: ${rem(24)};
   background-color: white;
   color: ${theme.colors.grey};
   cursor: default;

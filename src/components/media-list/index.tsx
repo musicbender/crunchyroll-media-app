@@ -6,7 +6,7 @@ import MediaItem from '../media-item';
 import { InnerWrapper, MediaListWrapper } from './styles';
 import Modal from '../common/modal';
 import MediaForm from '../media-form';
-../common/select
+import Spinner from '../icons/spinner';
 const MediaList: FC = () => {
   const { mediaData, mediaView } = useStore();
 
@@ -39,9 +39,9 @@ const MediaList: FC = () => {
           ))}
         </InnerWrapper>
       )}
-      {mediaData.isLoading && <p>loading...</p>}
+      {mediaData.isLoading && <Spinner />}
       <Modal isOpen={mediaView.isEditing} onClose={() => handleEdit(false)}>
-        <MediaForm />
+        <MediaForm onClose={() => handleEdit(false)} />
       </Modal>
     </MediaListWrapper>
   );

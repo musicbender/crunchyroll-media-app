@@ -1,6 +1,7 @@
 import styled from 'styled-components';
 import theme from '../../styles/theme';
 import { rem } from 'polished';
+import { Box } from '@rebass/grid';
 
 export const MediaFormWrapper = styled.div`
   position: absolute;
@@ -21,4 +22,22 @@ export const MediaFormWrapper = styled.div`
 export const FormTitle = styled.h2`
   margin: ${rem(8)} 0 ${rem(24)};
   font-weight: 700;
+`;
+
+export const SelectWrapper = styled(Box)`
+  display: inline-block;
+  width: calc(50% - ${rem(9)});
+`;
+
+export const CloseButton = styled.button`
+  position: absolute;
+  right: ${rem(24)};
+  top: ${rem(24)};
+  border: none;
+  outline: none;
+  background-color: transparent;
+
+  &:hover {
+    cursor: pointer;
+  }
 `;

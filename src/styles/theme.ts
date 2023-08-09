@@ -2,6 +2,8 @@ import { rgb } from 'polished';
 
 const theme = {
   colors: {
+    orangeBase: rgb(244, 117, 33),
+    orangeDark: rgb(229, 106, 23),
     white: '#ffffff',
     offWhite: '#f5f5f5',
     black: '#282828',
@@ -13,7 +15,6 @@ const theme = {
     grey: '#555555',
     lightGrey: rgb(150, 150, 150),
     error: '#E8233A',
-    orangeBase: rgb(244, 117, 33),
   },
   fonts: {
     inconsolata: '"Inconsolata", "serif"',

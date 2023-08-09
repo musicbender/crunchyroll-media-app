@@ -49,7 +49,12 @@ export const Input = styled.input<InputFieldProps>`
 
     &:focus,
     &:active {
-      border-color: ${theme.colors.black};
+      border-color: ${theme.colors.orangeDark};
+    }
+
+    &:focus-visible {
+      outline-color: ${theme.colors.orangeDark};
+      outline-width: ${rem(2)};
     }
 
     ${({ hasError }) =>

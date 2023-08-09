@@ -1,5 +1,5 @@
 import { ChangeEvent, FC, useMemo } from 'react';
-import { FormTitle, MediaFormWrapper } from './styles';
+import { CloseButton, FormTitle, MediaFormWrapper, SelectWrapper } from './styles';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useStore } from '../../stores';
 import { observer } from 'mobx-react';
@@ -10,8 +10,10 @@ import { Box } from '@rebass/grid';
 import InputField from '../common/input-field';
 import { rem } from 'polished';
 import formSchema from './schema';
-import SelectInput from '../common/select';
 import { mediaGenreContent, mediaTypeContent } from '../../constants/content';
+import SelectInput from '../common/select-input';
+import Button from '../common/button';
+import { Cross2Icon } from '@radix-ui/react-icons';
 
 interface FormInputs {
   title: string;
@@ -21,9 +23,13 @@ interface FormInputs {
   rating: number;
 }
 
+interface Props {
+  onClose: () => void;
+}
+
 type FormInputsKey = keyof FormInputs;
 
-const MediaForm: FC = () => {
+const MediaForm: FC<Props> = ({ onClose }) => {
   const { mediaData, mediaView } = useStore();
 
   const initialData = useMemo(() => {
@@ -31,7 +37,13 @@ const MediaForm: FC = () => {
     return mediaData.findOne(mediaView.editId);
   }, [mediaView.editId]);
 
-  const { control, setValue, clearErrors, handleSubmit } = useForm<FormInputs>({
+  const {
+    formState: { isDirty },
+    control,
+    setValue,
+    clearErrors,
+    handleSubmit,
+  } = useForm<FormInputs>({
     resolver: yupResolver(formSchema),
     mode: 'onSubmit',
     defaultValues: {
@@ -45,25 +57,45 @@ const MediaForm: FC = () => {
   });
 
   const handleValue = (key: FormInputsKey, value: string | number) => {
+    console.log('change value', key, value);
     clearErrors(key);
     setValue(key, value, { shouldDirty: true });
   };
 
-  const handleSave = () => {
-    handleSubmit((data: FormInputs) => {
-      console.log('saved', data);
-    });
+  const onSave = (data: FormInputs) => {
+    console.log('saved', data);
+    // console.log('clicked...');
+    // e.preventDefault();
+
+    // console.log('validating?');
+    // handleSubmit(
+    //   (data: FormInputs) => {
+    //     console.log('saved', data);
+    //     return;
+    //   },
+    //   (err) => {
+    //     console.error(err);
+    //     return;
+    //   },
+    // );
   };
 
   return (
     <MediaFormWrapper>
-      <form onSubmit={handleSave}>
+      <CloseButton onClick={onClose}>
+        <Cross2Icon width={rem(20)} height={rem(20)} />
+      </CloseButton>
+      <form onSubmit={handleSubmit(onSave)}>
         <FormTitle>Edit Media Content</FormTitle>
 
         {formInputConf.map((input) => {
           if (input.type === 'selector') {
             return (
-              <Box mb={rem(24)} key={input.name + 'form-input'}>
+              <SelectWrapper
+                mb={rem(24)}
+                mr={input.name === 'type' ? rem(16) : 0}
+                key={input.name + 'form-input'}
+              >
                 <Controller
                   name={input.name as FormInputsKey}
                   control={control}
@@ -80,7 +112,7 @@ const MediaForm: FC = () => {
                     />
                   )}
                 />
-              </Box>
+              </SelectWrapper>
             );
           } else {
             return (
@@ -94,6 +126,7 @@ const MediaForm: FC = () => {
                       label={input.label}
                       placeholder={input.placeholder}
                       id={input.name}
+                      name={input.name}
                       ref={field.ref}
                       onChange={(e: ChangeEvent<HTMLInputElement>) => {
                         handleValue(field.name, e.target.value);
@@ -108,7 +141,9 @@ const MediaForm: FC = () => {
           }
         })}
         <Box>
-          <button type="submit">Save</button>
+          <Button type="submit" disabled={!isDirty}>
+            Save
+          </Button>
         </Box>
       </form>
     </MediaFormWrapper>

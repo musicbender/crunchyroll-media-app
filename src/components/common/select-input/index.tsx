@@ -11,6 +11,7 @@ import {
   StyledItem,
   StyledItemIndicator,
 } from './styles';
+import { InputLabel } from '../input-field/styles';
 
 type ItemProps = Omit<JSX.IntrinsicElements['input'], 'ref'> &
   Select.SelectItemProps & {
@@ -39,7 +40,7 @@ const SelectItem = forwardRef<HTMLDivElement, ItemProps>(({ children, ...rest },
 
 const SelectInput: FC<Props> = ({ items, content, label, placeholder, value, onChange }) => (
   <Select.Root value={value} onValueChange={onChange}>
-    {label && <label>{label}</label>}
+    {label && <InputLabel>{label}</InputLabel>}
     <SelectTrigger>
       <Select.Value placeholder={placeholder || 'Make a selection'} />
       <SelectIcon>
