@@ -1,8 +1,10 @@
 import { createContext, useContext } from 'react';
-import MediaStore from './media-store';
+import MediaDataStore from './media-data-store';
+import MediaViewStore from './media-view-store';
 
 const store = {
-  mediaStore: new MediaStore(),
+  mediaData: new MediaDataStore(),
+  mediaView: new MediaViewStore(),
 };
 
 export const StoreContext = createContext(store);

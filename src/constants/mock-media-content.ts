@@ -2,7 +2,7 @@ import MediaContent from '../models/media-content';
 
 const mockData: MediaContent[] = [
   new MediaContent({
-    id: 1,
+    id: 3910945,
     title: 'Cowboy Bebop',
     type: 'tv-show',
     genre: 'western',
@@ -10,7 +10,7 @@ const mockData: MediaContent[] = [
     rating: 8,
   }),
   new MediaContent({
-    id: 2,
+    id: 5887462,
     title: 'One Punch Man',
     type: 'tv-show',
     genre: 'comedy',
@@ -18,7 +18,7 @@ const mockData: MediaContent[] = [
     rating: 9,
   }),
   new MediaContent({
-    id: 3,
+    id: 1104958,
     title: 'Chrono Trigger',
     type: 'game',
     genre: 'rpg',
@@ -26,7 +26,7 @@ const mockData: MediaContent[] = [
     rating: 10,
   }),
   new MediaContent({
-    id: 4,
+    id: 5996873,
     title: "Howl's Moving Castle",
     type: 'movie',
     genre: 'drama',
@@ -34,7 +34,7 @@ const mockData: MediaContent[] = [
     rating: 10,
   }),
   new MediaContent({
-    id: 5,
+    id: 5586677,
     title: 'Silmarillion',
     type: 'book',
     genre: 'fantasy',
@@ -42,7 +42,7 @@ const mockData: MediaContent[] = [
     rating: 9,
   }),
   new MediaContent({
-    id: 6,
+    id: 5985721,
     title: 'Spirited Away',
     type: 'movie',
     genre: 'drama',
@@ -50,7 +50,7 @@ const mockData: MediaContent[] = [
     rating: 7,
   }),
   new MediaContent({
-    id: 7,
+    id: 5476820,
     title: 'Dragon Ball Z',
     type: 'tv-show',
     genre: 'action',
@@ -58,7 +58,7 @@ const mockData: MediaContent[] = [
     rating: 2,
   }),
   new MediaContent({
-    id: 8,
+    id: 9455763,
     title: 'A Game of Thrones',
     type: 'book',
     genre: 'fantasy',
@@ -66,7 +66,7 @@ const mockData: MediaContent[] = [
     rating: 7,
   }),
   new MediaContent({
-    id: 9,
+    id: 4857245,
     title: 'Infinity War',
     type: 'comic',
     genre: 'fantasy',
@@ -74,7 +74,7 @@ const mockData: MediaContent[] = [
     rating: 6,
   }),
   new MediaContent({
-    id: 10,
+    id: 1012976,
     title: 'Overwatch',
     type: 'game',
     genre: 'team',

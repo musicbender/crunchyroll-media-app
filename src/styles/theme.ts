@@ -14,9 +14,6 @@ const theme = {
     lightGrey: rgb(150, 150, 150),
     error: '#E8233A',
     orangeBase: rgb(244, 117, 33),
-    orangeDark: rgb(229, 106, 23),
-    orangeLight: rgb(255, 133, 51),
-    orangeBright: rgb(255, 148, 77),
   },
   fonts: {
     inconsolata: '"Inconsolata", "serif"',
