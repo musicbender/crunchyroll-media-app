@@ -1,10 +1,10 @@
-import { MediaContentItem } from '../types';
+import { MediaContentGenre, MediaContentItem, MediaContentType } from '../types';
 
 export default class MediaContent {
   id: number;
   title: string;
-  type: 'movie' | 'tv-show' | 'game' | 'comic' | 'book';
-  genre: string;
+  type: MediaContentType;
+  genre: MediaContentGenre;
   releaseYear: number;
   rating: number;
 

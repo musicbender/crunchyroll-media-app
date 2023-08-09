@@ -2,11 +2,12 @@ import theme from '../styles/theme';
 
 export type MediaContentType = 'movie' | 'tv-show' | 'game' | 'comic' | 'book';
 
+export type MediaContentGenre = 'action' | 'comedy' | 'rpg' | 'drama' | 'fantasy' | 'western';
 export interface MediaContentItem {
   id: number;
   title: string;
   type: MediaContentType;
-  genre: string;
+  genre: MediaContentGenre;
   releaseYear: number;
   rating: number;
 }

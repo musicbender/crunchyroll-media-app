@@ -77,7 +77,7 @@ const mockData: MediaContent[] = [
     id: 1012976,
     title: 'Overwatch',
     type: 'game',
-    genre: 'team',
+    genre: 'action',
     releaseYear: 2016,
     rating: 7,
   }),

@@ -17,7 +17,7 @@ const MediaList: FC = () => {
         id: 1111111,
         title: 'Wut wut',
         type: 'movie',
-        genre: 'confused',
+        genre: 'action',
         releaseYear: 1982,
         rating: 1,
       }),
