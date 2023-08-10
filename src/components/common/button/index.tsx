@@ -17,7 +17,7 @@ const Button = ({
   children,
 }: Props) => {
   return (
-    <BtnWrapper type={type} disabled={disabled} onClick={handleClick}>
+    <BtnWrapper type={type} disabled={disabled} isLoading={isLoading} onClick={handleClick}>
       <InnerWrapper isLoading={isLoading}>
         {isLoading && <StyledSpinner />}
         {children}

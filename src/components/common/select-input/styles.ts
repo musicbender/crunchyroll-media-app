@@ -1,5 +1,5 @@
 import styled, { css } from 'styled-components';
-import theme from '../../../styles/theme';
+import theme, { boxShadows } from '../../../styles/theme';
 
 import * as Select from '@radix-ui/react-select';
 import { rem, rgba } from 'polished';
@@ -49,9 +49,7 @@ export const SelectContent = styled(Select.Content)`
   background-color: white;
   border-radius: ${rem(8)};
   z-index: 3;
-  box-shadow:
-    0px 10px 38px -10px rgba(22, 23, 24, 0.35),
-    0px 10px 20px -15px rgba(22, 23, 24, 0.2);
+  box-shadow: ${boxShadows.elevation2};
 `;
 
 export const SelectViewport = styled(Select.Viewport)`

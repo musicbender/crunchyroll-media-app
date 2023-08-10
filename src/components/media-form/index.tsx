@@ -107,7 +107,7 @@ const MediaForm: FC<Props> = ({ onClose }) => {
 
     const newItem = new MediaContent({
       id,
-      title: data.title,
+      title: data.title.trim(),
       type: data.type,
       genre: data.genre,
       releaseYear: data.releaseYear,

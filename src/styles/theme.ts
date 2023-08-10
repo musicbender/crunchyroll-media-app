@@ -1,4 +1,4 @@
-import { rgb } from 'polished';
+import { rem, rgb } from 'polished';
 
 const theme = {
   colors: {
@@ -28,6 +28,21 @@ const theme = {
     moderate: '425ms',
     fast: '250ms',
   },
+};
+
+export const boxShadows = {
+  elevation1: `0 0 ${rem(2)} rgba(0, 0, 0, 0.14), 0 ${rem(2)} ${rem(
+    2,
+  )} rgba(0, 0, 0, 0.12), 0 ${rem(1)} ${rem(3)} rgba(0, 0, 0, 0.2)`,
+  elevation2: `0 ${rem(2)} ${rem(4)} rgba(0, 0, 0, 0.14), 0 ${rem(4)} ${rem(
+    5,
+  )} rgba(0, 0, 0, 0.12), 0 ${rem(1)} ${rem(10)} rgba(0, 0, 0, 0.2)`,
+  elevation3: `0 ${rem(9)} ${rem(12)} rgba(0, 0, 0, 0.14), 0 ${rem(3)} ${rem(
+    16,
+  )} rgba(0, 0, 0, 0.12), 0 ${rem(5)} ${rem(6)} rgba(0, 0, 0, 0.2)`,
+  elevation4: `0 ${rem(24)} ${rem(38)} rgba(0, 0, 0, 0.14), 0 ${rem(9)} ${rem(
+    46,
+  )} rgba(0, 0, 0, 0.12), 0 ${rem(11)} ${rem(15)} rgba(0, 0, 0, 0.2)`,
 };
 
 export default theme;

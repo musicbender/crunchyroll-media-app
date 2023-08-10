@@ -7,7 +7,7 @@ interface BtnProps {
   isLoading?: boolean;
 }
 
-export const BtnWrapper = styled.button`
+export const BtnWrapper = styled.button<BtnProps>`
   padding: 0.7rem 1rem;
   font-size: ${rem(16)};
   background-color: ${rgba(theme.colors.orangeBase, 0.75)};
@@ -35,6 +35,16 @@ export const BtnWrapper = styled.button`
     opacity: 0.5;
     pointer-events: none;
   }
+
+  ${({ isLoading }) =>
+    isLoading &&
+    css`
+      &,
+      &:focus,
+      &:hover {
+        background-color: ${rgba(theme.colors.orangeBase, 0.75)};
+      }
+    `}
 `;
 
 export const InnerWrapper = styled.span<BtnProps>`
@@ -52,5 +62,6 @@ export const StyledSpinner = styled(Spinner).attrs({
 })`
   display: inline-block;
   position: absolute;
+  top: -${rem(1)};
   left: -${rem(28)};
 `;

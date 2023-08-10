@@ -1,7 +1,7 @@
 import { rem, rgba } from 'polished';
 import styled, { keyframes } from 'styled-components';
 import { media } from '../../styles/breakpoints';
-import theme from '../../styles/theme';
+import theme, { boxShadows } from '../../styles/theme';
 import Spinner from '../icons/spinner';
 
 interface CardWrapperProps {
@@ -28,7 +28,7 @@ export const CardWrapper = styled.div<CardWrapperProps>`
   padding: 0.85rem 1rem 0.5rem;
   align-items: center;
   background-color: ${theme.colors.white};
-  box-shadow: rgba(0, 0, 0, 0.2) 0px 1px 3px;
+  box-shadow: ${boxShadows.elevation1};
   border-radius: ${rem(8)};
   box-sizing: border-box;
   opacity: 0;
