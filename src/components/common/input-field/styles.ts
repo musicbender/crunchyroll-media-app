@@ -2,12 +2,26 @@ import { rem } from 'polished';
 import styled, { css } from 'styled-components';
 import theme from '../../../styles/theme';
 
+export type InputWrapperProps = {
+  hasIcon?: boolean;
+};
+
 export type InputFieldProps = {
   hasError?: boolean;
 };
 
-export const InputWrapper = styled.div`
+export const InputWrapper = styled.div<InputWrapperProps>`
   width: 100%;
+
+  ${({ hasIcon }) =>
+    hasIcon &&
+    css`
+      ${Input} {
+        &[type] {
+          padding-left: ${rem(42)};
+        }
+      }
+    `}
 `;
 
 export const InputLabel = styled.label<InputFieldProps>`
@@ -88,4 +102,16 @@ export const ErrorText = styled.p`
   font-size: ${rem(12)};
   line-height: 1;
   color: ${theme.colors.error};
+`;
+
+export const IconWrapper = styled.div`
+  left: ${rem(16)};
+  height: auto;
+
+  &,
+  > svg {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+  }
 `;

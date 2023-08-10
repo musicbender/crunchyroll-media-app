@@ -11,8 +11,7 @@ export const SelectTrigger = styled(Select.SelectTrigger)`
   align-items: center;
   justify-content: center;
   font-size: ${rem(14)};
-  line-height: 1;
-  height: ${rem(50)};
+  height: ${rem(48)};
   gap: ${rem(4)};
   color: black;
   font-size: ${rem(18)};
@@ -62,21 +61,20 @@ export const SelectViewport = styled(Select.Viewport)`
 export const StyledItem = styled(Select.Item)`
   display: flex;
   position: relative;
-  height: 25;
+  height: ${rem(24)};
   padding: ${rem(8)} ${rem(36)} ${rem(8)} ${rem(24)};
   margin-bottom: ${rem(8)};
   font-size: ${rem(16)};
   line-height: 1;
-  border-radius: 3;
+  border-radius: ${rem(8)};
   align-items: center;
-  outline: 'none';
+  outline: none;
 
   &:first-child {
     margin-top: ${rem(8)};
   }
 
   &[data-highlighted] {
-    outline: none;
     background-color: ${rgba(theme.colors.orangeBase, 0.33)};
     color: ${theme.colors.black};
   }

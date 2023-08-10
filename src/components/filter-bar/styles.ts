@@ -14,7 +14,11 @@ export const AddItemText = styled.span`
 `;
 
 export const RightWrapper = styled.div`
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  grid-gap: ${rem(16)};
   justify-self: end;
+  align-self: end;
 
   > button {
     width: ${rem(168)};

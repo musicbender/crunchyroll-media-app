@@ -1,5 +1,5 @@
 import { ChangeEvent, forwardRef } from 'react';
-import { ErrorText, InnerWrapper, Input, InputLabel, InputWrapper } from './styles';
+import { ErrorText, IconWrapper, InnerWrapper, Input, InputLabel, InputWrapper } from './styles';
 
 export type Props = Omit<JSX.IntrinsicElements['input'], 'ref'> & {
   type?: string;
@@ -7,20 +7,22 @@ export type Props = Omit<JSX.IntrinsicElements['input'], 'ref'> & {
   id?: string;
   error?: string | null;
   label?: string;
+  icon?: React.ReactNode;
   className?: string;
   onChange?: (e: ChangeEvent<HTMLInputElement>) => void;
 };
 
 export const InputField = forwardRef<HTMLInputElement, Props>(
-  ({ type = 'text', value, id, error, label, className, onChange, ...rest }, ref) => {
+  ({ type = 'text', value, id, error, label, icon, className, onChange, ...rest }, ref) => {
     return (
-      <InputWrapper aria-live="polite" className={className}>
+      <InputWrapper hasIcon={!!icon} aria-live="polite" className={className}>
         {label && (
           <InputLabel htmlFor={id} hasError={!!error}>
             {label}
           </InputLabel>
         )}
         <InnerWrapper>
+          {!!icon && <IconWrapper>{icon}</IconWrapper>}
           <Input
             data-testid="input-field"
             type={type}

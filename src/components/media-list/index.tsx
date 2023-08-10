@@ -1,5 +1,5 @@
 import { observer } from 'mobx-react';
-import { FC } from 'react';
+import { FC, useMemo } from 'react';
 import { useStore } from '../../stores';
 import MediaContent from '../../models/media-content';
 import MediaItem from '../media-item';
@@ -12,10 +12,19 @@ import { ResetIcon } from '@radix-ui/react-icons';
 import { rem } from 'polished';
 import theme from '../../styles/theme';
 import FilterBar from '../filter-bar';
+import { mediaFilterContent } from '../../constants/content';
 
 const MediaList: FC = () => {
   const { mediaData, mediaView } = useStore();
   const hasMediaItems = !!mediaData.mediaContent.length;
+
+  const showingDescription = useMemo(() => {
+    const prefix = 'Currently showing ';
+    const filters = mediaData.filters.length
+      ? mediaFilterContent[mediaData.filters[0]]
+      : 'Movies, TV Shows, and Games';
+    return prefix + filters;
+  }, [mediaData.filters]);
 
   const handleEdit = (isEditing = false, id?: number): void => {
     mediaView.isEditing = isEditing;
@@ -40,7 +49,7 @@ const MediaList: FC = () => {
       {hasMediaItems && !mediaData.isLoading && (
         <>
           <Box mb={rem(16)}>
-            <p>Currently showing movies, TV shows, and games</p>
+            <p>{showingDescription}</p>
           </Box>
           <InnerWrapper>
             {[...mediaData.mediaContent.slice()].map((item: MediaContent, index: number) => (

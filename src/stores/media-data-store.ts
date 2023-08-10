@@ -17,6 +17,7 @@ import MediaContent from '../models/media-content';
 interface MediaDataStoreState {
   mediaContent: MediaContent[];
   filters: MediaContentType[];
+  searchQuery: string | null;
   isLoading: boolean;
   isSaving: boolean;
   deletingId: number | null;
@@ -30,6 +31,7 @@ class MediaDataStore {
   private state: MediaDataStoreState = {
     mediaContent: [],
     filters: [],
+    searchQuery: null,
     isLoading: false,
     isSaving: false,
     deletingId: null,
@@ -58,6 +60,12 @@ class MediaDataStore {
       output = output.filter((item: MediaContent) => this.state.filters.includes(item.type));
     }
 
+    if (this.state.searchQuery) {
+      output = output.filter((item: MediaContent) =>
+        item.title.startsWith(this.state.searchQuery || ''),
+      );
+    }
+
     return output;
   }
 
@@ -67,6 +75,14 @@ class MediaDataStore {
 
   public set filters(value: MediaContentType[]) {
     this.state.filters = value;
+  }
+
+  public get searchQuery() {
+    return this.state.searchQuery;
+  }
+
+  public set searchQuery(value: string | null) {
+    this.state.searchQuery = value;
   }
 
   public get isLoading() {
