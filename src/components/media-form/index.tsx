@@ -5,7 +5,7 @@ import { useStore } from '../../stores';
 import { observer } from 'mobx-react';
 import { Controller, useForm } from 'react-hook-form';
 import { MediaContentGenre, MediaContentType } from '../../types';
-import { formInputConf, mediaGenres, mediaTypes } from '../../constants/form-input-config';
+import { formInputConf, mediaGenres, mediaTypesLimited } from '../../constants/form-input-config';
 import { Box } from '@rebass/grid';
 import InputField from '../common/input-field';
 import { rem } from 'polished';
@@ -145,7 +145,7 @@ const MediaForm: FC<Props> = ({ onClose }) => {
                   control={control}
                   render={({ field }) => (
                     <SelectInput
-                      items={input.name === 'type' ? mediaTypes : mediaGenres}
+                      items={input.name === 'type' ? mediaTypesLimited : mediaGenres}
                       content={input.name === 'type' ? mediaTypeContent : mediaGenreContent}
                       label={input.label}
                       placeholder={input.placeholder}

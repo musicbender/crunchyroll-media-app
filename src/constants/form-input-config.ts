@@ -35,6 +35,8 @@ export const formInputConf = [
 
 export const mediaTypes: MediaContentType[] = ['movie', 'tv-show', 'game', 'comic', 'book'];
 
+export const mediaTypesLimited: MediaContentType[] = ['movie', 'tv-show', 'game'];
+
 export const mediaGenres: MediaContentGenre[] = [
   'action',
   'comedy',

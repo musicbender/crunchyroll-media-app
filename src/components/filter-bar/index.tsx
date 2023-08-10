@@ -2,13 +2,12 @@ import { ChangeEvent, FC } from 'react';
 import Button from '../common/button';
 import { MagnifyingGlassIcon, PlusIcon } from '@radix-ui/react-icons';
 import { rem } from 'polished';
-import { AddItemText, BarWrapper, RightWrapper } from './styles';
+import { AddItemText, BarWrapper, ButtonWrapper, RightWrapper } from './styles';
 import { useStore } from '../../stores';
 import SelectInput from '../common/select-input';
 import { filterTypes } from '../../constants/form-input-config';
 import { mediaFilterContent } from '../../constants/content';
 import { MediaContentType } from '../../types';
-import { Box } from '@rebass/grid';
 import InputField from '../common/input-field';
 import useDebounce from '../../hooks/use-debounce';
 
@@ -32,11 +31,11 @@ const FilterBar: FC<Props> = ({ handleAdd }) => {
 
   return (
     <BarWrapper>
-      <Box width={rem(48)}>
+      <ButtonWrapper>
         <Button handleClick={handleAdd} disabled={mediaData.isLoading}>
           <PlusIcon width={rem(18)} height={rem(18)} /> <AddItemText>Add Item</AddItemText>
         </Button>
-      </Box>
+      </ButtonWrapper>
       <RightWrapper>
         <InputField
           value={mediaData.searchQuery || ''}

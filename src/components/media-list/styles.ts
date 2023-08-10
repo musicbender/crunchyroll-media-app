@@ -17,7 +17,7 @@ export const InnerWrapper = styled.div`
   display: grid;
   grid-template-columns: 1fr;
   grid-template-rows: repeat(auto-fill, 1fr);
-  grid-row-gap: 1rem;
+  grid-row-gap: rem;
   grid-column-gap: 1rem;
   margin-bottom: ${rem(64)};
 
