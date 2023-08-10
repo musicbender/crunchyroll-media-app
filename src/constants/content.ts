@@ -14,3 +14,10 @@ export const mediaGenreContent: { [key: string]: string } = {
   fantasy: 'Fantasy',
   western: 'Western',
 };
+
+export const mediaFilterContent: { [key: string]: string } = {
+  all: 'All',
+  movie: 'Movies',
+  'tv-show': 'TV Shows',
+  game: 'Video Games',
+};

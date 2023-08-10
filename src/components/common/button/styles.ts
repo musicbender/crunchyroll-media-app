@@ -8,7 +8,7 @@ interface BtnProps {
 }
 
 export const BtnWrapper = styled.button`
-  padding: 0.75rem 1.5rem;
+  padding: 0.7rem 1rem;
   font-size: ${rem(16)};
   background-color: ${rgba(theme.colors.orangeBase, 0.75)};
   border-radius: ${rem(25)};
@@ -28,7 +28,7 @@ export const BtnWrapper = styled.button`
 
   &:focus {
     cursor: pointer;
-    outline: 1px solid ${theme.colors.orangeDark};
+    outline: ${rem(1)} solid ${theme.colors.orangeDark};
   }
 
   &[disabled] {

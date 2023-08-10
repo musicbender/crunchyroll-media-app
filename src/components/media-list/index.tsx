@@ -3,17 +3,19 @@ import { FC } from 'react';
 import { useStore } from '../../stores';
 import MediaContent from '../../models/media-content';
 import MediaItem from '../media-item';
-import { AddItemText, CenterWrapper, InnerWrapper, MediaListWrapper, NoItemsText } from './styles';
+import { CenterWrapper, InnerWrapper, MediaListWrapper, NoItemsText, ResetButton } from './styles';
 import Modal from '../common/modal';
 import MediaForm from '../media-form';
 import Spinner from '../icons/spinner';
-import Button from '../common/button';
 import { Box } from '@rebass/grid';
-import { PlusIcon } from '@radix-ui/react-icons';
+import { ResetIcon } from '@radix-ui/react-icons';
 import { rem } from 'polished';
 import theme from '../../styles/theme';
+import FilterBar from '../filter-bar';
+
 const MediaList: FC = () => {
   const { mediaData, mediaView } = useStore();
+  const hasMediaItems = !!mediaData.mediaContent.length;
 
   const handleEdit = (isEditing = false, id?: number): void => {
     mediaView.isEditing = isEditing;
@@ -25,30 +27,41 @@ const MediaList: FC = () => {
     mediaView.editId = null;
   };
 
+  const handleReset = () => {
+    mediaData.reset();
+  };
+
   return (
     <MediaListWrapper>
       <Box mb={rem(32)}>
-        <Button handleClick={handleAdd}>
-          <PlusIcon width={rem(20)} height={rem(20)} /> <AddItemText>Add Item</AddItemText>
-        </Button>
+        <h2>{mediaData.mediaContent.length} Media Items</h2>
       </Box>
-      {!!mediaData.mediaContent?.length && (
-        <InnerWrapper>
-          {[...mediaData.mediaContent.slice()].map((item: MediaContent, index: number) => (
-            <MediaItem item={item} index={index} handleEdit={handleEdit} key={item.id} />
-          ))}
-        </InnerWrapper>
+      <FilterBar handleAdd={handleAdd} />
+      {hasMediaItems && !mediaData.isLoading && (
+        <>
+          <Box mb={rem(16)}>
+            <p>Currently showing movies, TV shows, and games</p>
+          </Box>
+          <InnerWrapper>
+            {[...mediaData.mediaContent.slice()].map((item: MediaContent, index: number) => (
+              <MediaItem item={item} index={index} handleEdit={handleEdit} key={item.id} />
+            ))}
+          </InnerWrapper>
+        </>
       )}
       {mediaData.isLoading && (
         <CenterWrapper>
           <Spinner fill={theme.colors.orangeBase} />
         </CenterWrapper>
       )}
-      {!mediaData.mediaContent?.length && !mediaData.isLoading && (
+      {!hasMediaItems && !mediaData.isLoading && (
         <CenterWrapper>
           <NoItemsText>No items to show. </NoItemsText>
         </CenterWrapper>
       )}
+      <ResetButton onClick={handleReset}>
+        <ResetIcon fill={theme.colors.lightGrey} width={rem(24)} height={rem(24)} />
+      </ResetButton>
       <Modal isOpen={mediaView.isEditing} onClose={() => handleEdit(false)}>
         <MediaForm onClose={() => handleEdit(false)} />
       </Modal>

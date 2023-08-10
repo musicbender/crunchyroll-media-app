@@ -43,3 +43,5 @@ export const mediaGenres: MediaContentGenre[] = [
   'fantasy',
   'western',
 ];
+
+export const filterTypes: MediaContentType[] = ['movie', 'tv-show', 'game'];

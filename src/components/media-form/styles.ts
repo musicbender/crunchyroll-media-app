@@ -2,13 +2,14 @@ import styled from 'styled-components';
 import theme from '../../styles/theme';
 import { rem } from 'polished';
 import { Box } from '@rebass/grid';
+import { media } from '../../styles/breakpoints';
 
 export const MediaFormWrapper = styled.div`
   position: absolute;
   top: 0;
   left: 0;
   width: 100%;
-  height: auto;
+  height: 100%;
   padding: 1rem 2rem;
   background-color: ${theme.colors.white};
   border-radius: ${rem(8)};
@@ -17,6 +18,10 @@ export const MediaFormWrapper = styled.div`
     0 ${rem(10)} ${rem(20)} rgba(0, 0, 0, 0.19),
     0 ${rem(6)} ${rem(6)} rgba(0, 0, 0, 0.23);
   z-index: 1;
+
+  ${media.tablet`
+    height: auto;
+  `}
 `;
 
 export const FormTitle = styled.h2`

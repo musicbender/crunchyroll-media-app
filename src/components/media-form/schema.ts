@@ -1,6 +1,7 @@
 import * as Yup from 'yup';
 import { MediaContentGenre, MediaContentType } from '../../types';
 
+// form schema and validation rules
 const formSchema = Yup.object().shape({
   title: Yup.string()
     .required('Title is required.')

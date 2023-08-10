@@ -20,11 +20,19 @@ export default class MediaService {
     }
   }
 
+  // fetch filtered media content items
   getMediaContent$(): Observable<MediaContent[]> {
-    const data = JSON.parse(LocalStorage.getInLocal(MEDIA_LOCAL_STORAGE_KEY));
+    let data = JSON.parse(LocalStorage.getInLocal(MEDIA_LOCAL_STORAGE_KEY));
+    const typeFilter = ['movie', 'tv-show', 'game'];
+
+    if (data) {
+      data = data.filter((item: MediaContent) => typeFilter.includes(item.type));
+    }
+
     return of(data).pipe(delay(MediaService.sleepTimeout));
   }
 
+  // add new media content item
   addMediaItem$(mediaItem: MediaContent): Observable<MediaContent> {
     const data: MediaContent[] = JSON.parse(LocalStorage.getInLocal(MEDIA_LOCAL_STORAGE_KEY)) || [];
     data.push(mediaItem);

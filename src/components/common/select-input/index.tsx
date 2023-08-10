@@ -23,6 +23,7 @@ interface Props {
   content: { [key: string]: string };
   label?: string;
   placeholder?: string;
+  defaultValue?: string;
   value?: string;
   onChange: (value: string) => void;
 }
@@ -38,8 +39,16 @@ const SelectItem = forwardRef<HTMLDivElement, ItemProps>(({ children, ...rest },
   );
 });
 
-const SelectInput: FC<Props> = ({ items, content, label, placeholder, value, onChange }) => (
-  <Select.Root value={value} onValueChange={onChange}>
+const SelectInput: FC<Props> = ({
+  items,
+  content,
+  label,
+  placeholder,
+  defaultValue,
+  value,
+  onChange,
+}) => (
+  <Select.Root value={value} onValueChange={onChange} {...(defaultValue && { defaultValue })}>
     {label && <InputLabel>{label}</InputLabel>}
     <SelectTrigger>
       <Select.Value placeholder={placeholder || 'Make a selection'} />

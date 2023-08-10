@@ -1,6 +1,18 @@
-# Getting Started with Create React App
+# Solution
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+## Media Data Store
+
+This is the mobx store where we interact with the media service (a mock API), use RxJs to handle these mock async calls using observables, and maintain state around these actions.
+
+I decided to use makeAutoObservable to keep the store clean and I didn't need any special overrides.
+
+For the read/get action of getting media data, I decided to persist a subscription by converting a mobx observable into an RxJs observable stream. I store this subscription to mobx state so I can trigger it again later. I made sure to clean up this if the store becomes unobserved.
+
+For all write/post actions, I created reuseable subscription logic. Once finished, it calls an action to update mobx state which can be used by the consuming react components.
+
+## Mock API
+
+I decided to mock a REST API using the MediaService and persisting with Local Storage. This seemed like the simpliest way to mock API data responses, but also persist the data so we had a working application. Should local storage normally be used as a database like this? Absolutely not. For the sake of this project it fit my needs.
 
 ## Available Scripts
 

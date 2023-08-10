@@ -33,11 +33,13 @@ interface Props {
 
 type FormInputsKey = keyof FormInputs;
 
+/** Main form for adding and editing media content items */
 const MediaForm: FC<Props> = ({ onClose }) => {
   const { mediaData, mediaView } = useStore();
   const [globalError, setGlobalError] = useState<string | null>(null);
   const [hasSaved, setHasSaved] = useState(false);
 
+  /** checking what media id is being editing and finding the item out of the data */
   const initialData = useMemo(() => {
     if (!mediaView.editId) return null;
     return mediaData.findOne(mediaView.editId);
@@ -64,12 +66,18 @@ const MediaForm: FC<Props> = ({ onClose }) => {
     shouldFocusError: true,
   });
 
+  /** Once saved, let's check the mobx saving state. Once it is finished saving
+   * we close the form or show any http request errors */
   useEffect(() => {
     return reaction(
       () => mediaData.isSaving,
       () => {
         if (!mediaData.isSaving && hasSaved) {
-          onClose();
+          if (!mediaData.error) {
+            onClose();
+          } else {
+            setGlobalError(mediaData.error);
+          }
         }
       },
       {
@@ -84,9 +92,11 @@ const MediaForm: FC<Props> = ({ onClose }) => {
     setValue(key, value, { shouldDirty: true });
   };
 
+  // Save the form data with the proper add/edit service
   const onSave = (data: FormInputs) => {
     setHasSaved(false);
 
+    // if this is a new item, generate an id for it
     const id = isNew
       ? +generateUniqueId({
           length: 7,
@@ -110,11 +120,7 @@ const MediaForm: FC<Props> = ({ onClose }) => {
       mediaData.update(newItem);
     }
 
-    if (mediaData.error) {
-      setGlobalError(mediaData.error);
-    } else {
-      setHasSaved(true);
-    }
+    setHasSaved(true);
   };
 
   return (

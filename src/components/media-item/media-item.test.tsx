@@ -1,24 +1,45 @@
+import { render, screen } from '@testing-library/react';
 import MediaItem from '.';
+import MediaContent from '../../models/media-content';
+import userEvent from '@testing-library/user-event';
 
-describe('<MediaItem />', () => {
-  it('should pass', () => {
-    expect(1 + 1).toBe(2);
+const handleEdit = jest.fn();
+
+const setup = () => {
+  const props = {
+    item: new MediaContent({
+      id: 123,
+      title: 'Test Media',
+      type: 'movie',
+      genre: 'action',
+      releaseYear: 1982,
+      rating: 7,
+    }),
+    index: 0,
+    handleEdit,
+  };
+
+  render(<MediaItem {...props} />);
+};
+
+describe('MediaItem', () => {
+  it('renders the media item', () => {
+    setup();
+    expect(screen.getByTestId('media-item')).toBeInTheDocument();
   });
-  // const mockListing = mockListings.data.regions.dispensary.listings[0];
-  // it('should render correctly with only listing props', () => {
-  //   const wrapper = shallow(<ListingCard listing={mockListing} />);
-  //   expect(wrapper.find('CardWrapper')).toHaveLength(1);
-  // });
-  // it('avatar should be correct img url in as a prop', () => {
-  //   const wrapper = shallow(<ListingCard listing={mockListing} />);
-  //   expect(wrapper.find('Avatar').get(0).props.img).toEqual(mockListing.avatar_image.small_url);
-  // });
-  // it('location should have listing city in its inner text', () => {
-  //   const wrapper = shallow(<ListingCard listing={mockListing} />);
-  //   expect(wrapper.find('ListingLocation').text().indexOf(mockListing.city) > -1).toBe(true);
-  // });
-  // it('listing should show correct name', () => {
-  //   const wrapper = shallow(<ListingCard listing={mockListing} />);
-  //   expect(wrapper.find('ListingName').text()).toEqual(mockListing.name);
-  // });
+
+  it('renders correct content', () => {
+    setup();
+    expect(screen.getByText('Test Media')).toBeInTheDocument();
+    expect(screen.getByText('Movie')).toBeInTheDocument();
+    expect(screen.getByText('Genre: Action')).toBeInTheDocument();
+    expect(screen.getByText('Rating: 7/10')).toBeInTheDocument();
+  });
+
+  it('fires edit handler when clicking edit icon', async () => {
+    setup();
+    const editIcon = screen.getByTestId('edit');
+    await userEvent.click(editIcon);
+    expect(handleEdit).toHaveBeenCalledWith(true, 123);
+  });
 });

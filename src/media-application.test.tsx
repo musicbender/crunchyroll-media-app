@@ -1,9 +1,8 @@
-import React from 'react';
 import { render, screen } from '@testing-library/react';
 import MediaApplication from './media-application';
 
-test('renders learn react link', () => {
+test('MediaApplication', () => {
   render(<MediaApplication />);
-  const linkElement = screen.getByText(/learn react/i);
+  const linkElement = screen.getByText('Media Content');
   expect(linkElement).toBeInTheDocument();
 });

@@ -1,5 +1,5 @@
 import { makeAutoObservable, onBecomeObserved, onBecomeUnobserved, runInAction } from 'mobx';
-import { MediaContentItem } from '../types';
+import { MediaContentItem, MediaContentType } from '../types';
 import {
   Observable,
   ObservableInput,
@@ -16,6 +16,7 @@ import MediaContent from '../models/media-content';
 
 interface MediaDataStoreState {
   mediaContent: MediaContent[];
+  filters: MediaContentType[];
   isLoading: boolean;
   isSaving: boolean;
   deletingId: number | null;
@@ -28,6 +29,7 @@ class MediaDataStore {
 
   private state: MediaDataStoreState = {
     mediaContent: [],
+    filters: [],
     isLoading: false,
     isSaving: false,
     deletingId: null,
@@ -50,7 +52,21 @@ class MediaDataStore {
   }
 
   public get mediaContent() {
-    return this.state.mediaContent;
+    let output = this.state.mediaContent;
+
+    if (this.state.filters.length) {
+      output = output.filter((item: MediaContent) => this.state.filters.includes(item.type));
+    }
+
+    return output;
+  }
+
+  public get filters() {
+    return this.state.filters;
+  }
+
+  public set filters(value: MediaContentType[]) {
+    this.state.filters = value;
   }
 
   public get isLoading() {
@@ -138,6 +154,12 @@ class MediaDataStore {
     });
   }
 
+  // for reseting mock data to initial state
+  public reset() {
+    this.mediaService.resetMock();
+    this.state.trigger = !this.state.trigger;
+  }
+
   private initFetch() {
     return from(toStream(() => [this.state.trigger], true) as ObservableInput<[boolean]>)
       .pipe(
@@ -175,6 +197,7 @@ class MediaDataStore {
     stream.subscribe({
       next: onNext,
       error: (err) => {
+        // log error for observability
         console.error(err);
 
         runInAction(() => {

@@ -1,6 +1,5 @@
 import { FC } from 'react';
 import MediaContent from '../../models/media-content';
-
 import {
   CardWrapper,
   InnerWrapper,
@@ -20,7 +19,7 @@ import GameController from '../icons/game-controller';
 import Book from '../icons/book';
 import Comic from '../icons/comic';
 import Question from '../icons/question';
-import { mediaTypeContent } from '../../constants/content';
+import { mediaGenreContent, mediaTypeContent } from '../../constants/content';
 import theme from '../../styles/theme';
 import { rem } from 'polished';
 import Delete from '../icons/delete';
@@ -59,7 +58,7 @@ const MediaItem: FC<Props> = ({ item, index, handleEdit }) => {
   };
 
   return (
-    <CardWrapper index={index}>
+    <CardWrapper index={index} data-testid="media-item">
       <InnerWrapper>
         <ContentWrapper>
           <SubTitle>{mediaTypeContent[item.type]}</SubTitle>
@@ -70,16 +69,15 @@ const MediaItem: FC<Props> = ({ item, index, handleEdit }) => {
         </IconCircle>
       </InnerWrapper>
       <Box mb={rem(32)}>
-        <Chip>Genre: {item.genre}</Chip>
+        <Chip>Genre: {mediaGenreContent[item.genre]}</Chip>
         <Chip>Rating: {item.rating}/10</Chip>
         <Chip>Released: {item.releaseYear}</Chip>
       </Box>
       <ActionIconsWrapper>
-        <IconButton onClick={() => handleEdit(true, item.id)}>
+        <IconButton onClick={() => handleEdit(true, item.id)} data-testid="edit">
           <Edit />
         </IconButton>
         <IconButton onClick={() => handleDelete()}>
-          {/* <IconSpinner size={20} /> */}
           {mediaData.isDeleting && mediaData.deletingId === item.id ? (
             <IconSpinner size={20} />
           ) : (

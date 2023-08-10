@@ -1,4 +1,4 @@
-import { rgba } from 'polished';
+import { rem, rgba } from 'polished';
 import styled, { keyframes, css } from 'styled-components';
 import theme from '../../../styles/theme';
 
@@ -71,12 +71,10 @@ export const ModalOverlay = styled.div<ModalProps>`
 
 export const ModalInner = styled.div<ModalProps>`
   position: absolute;
-  top: 10vh;
+  top: 0;
   left: 50%;
-  width: 80%;
-  height: auto;
-  max-width: 24rem;
-  height: 23.75rem;
+  width: 100%;
+  height: 100%;
   transform: translate3d(-50%, 2rem, 0);
   transition:
     transform ${duration}ms ease-in-out,
@@ -99,8 +97,10 @@ export const ModalInner = styled.div<ModalProps>`
       animation: none;
     `}
 
-  @media (min-width: 767px), (orientation: landscape) {
+  @media (min-width: ${rem(767)}), (orientation: landscape) {
     top: 25%;
+    width: 80%;
+    height: 23.75rem;
     max-width: 38rem;
     transform: translate3d(-50%, -50%, 0);
     animation: ${showInner} ${duration}ms ease-in-out;
