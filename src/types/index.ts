@@ -14,7 +14,7 @@ export interface MediaContentItem {
 
 export type Theme = typeof theme;
 
-export type BreakPoints = {
+export interface BreakPoints {
   desktopXXL: number;
   desktopXL: number;
   desktopL: number;
@@ -24,4 +24,4 @@ export type BreakPoints = {
   mobileL: number;
   mobileM: number;
   mobileS: number;
-};
+}

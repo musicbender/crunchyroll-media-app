@@ -5,6 +5,7 @@ interface MediaViewStoreState {
   editId: number | null;
 }
 
+// this store handles view-specific state
 class MediaViewStore {
   private state: MediaViewStoreState = {
     isEditing: false,

@@ -35,8 +35,10 @@ export default class MediaService {
   // add new media content item
   addMediaItem$(mediaItem: MediaContent): Observable<MediaContent> {
     const data: MediaContent[] = JSON.parse(LocalStorage.getInLocal(MEDIA_LOCAL_STORAGE_KEY)) || [];
+
     data.push(mediaItem);
     LocalStorage.setInLocal(MEDIA_LOCAL_STORAGE_KEY, JSON.stringify(data));
+
     return of(mediaItem).pipe(delay(MediaService.sleepTimeout));
   }
 
@@ -81,6 +83,7 @@ export default class MediaService {
     );
   }
 
+  // reset our data to its initial state
   resetMock() {
     LocalStorage.setInLocal(MEDIA_LOCAL_STORAGE_KEY, JSON.stringify(MediaService.initialData));
   }

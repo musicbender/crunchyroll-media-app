@@ -27,6 +27,9 @@ const FilterBar: FC<Props> = ({ handleAdd }) => {
     mediaData.searchQuery = value || null;
   };
 
+  /** Updating the global mobx state is a relatively heavy oporation. Let's
+   * debounce the search input for better performance.
+   */
   const debouncedSearch = useDebounce(handleSearch, 100);
 
   return (

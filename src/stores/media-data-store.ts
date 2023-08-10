@@ -24,7 +24,7 @@ interface MediaDataStoreState {
   error: string | null;
   trigger: boolean;
 }
-
+// this store handles all state and actions for media data
 class MediaDataStore {
   private readonly mediaService = new MediaService();
 
@@ -218,6 +218,8 @@ class MediaDataStore {
 
         runInAction(() => {
           this.state.error = err.message;
+          this.state.isSaving = false;
+          this.state.deletingId = null;
         });
       },
       complete: () => {

@@ -1,5 +1,5 @@
 import { ChangeEvent, FC, useEffect, useMemo, useState } from 'react';
-import { CloseButton, FormTitle, MediaFormWrapper, SelectWrapper } from './styles';
+import { CloseButton, ErrorText, FormTitle, MediaFormWrapper, SelectWrapper } from './styles';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useStore } from '../../stores';
 import { observer } from 'mobx-react';
@@ -16,7 +16,6 @@ import Button from '../common/button';
 import { Cross2Icon } from '@radix-ui/react-icons';
 import MediaContent from '../../models/media-content';
 import generateUniqueId from 'generate-unique-id';
-import { ErrorText } from '../common/input-field/styles';
 import { reaction } from 'mobx';
 
 interface FormInputs {
@@ -70,9 +69,10 @@ const MediaForm: FC<Props> = ({ onClose }) => {
    * we close the form or show any http request errors */
   useEffect(() => {
     return reaction(
-      () => mediaData.isSaving,
+      () => `${mediaData.isSaving}${mediaData.error}`,
       () => {
         if (!mediaData.isSaving && hasSaved) {
+          setHasSaved(false);
           if (!mediaData.error) {
             onClose();
           } else {
@@ -114,12 +114,14 @@ const MediaForm: FC<Props> = ({ onClose }) => {
       rating: data.rating,
     });
 
+    // add or update, depending on if it is a new item
     if (isNew) {
       mediaData.add(newItem);
     } else {
       mediaData.update(newItem);
     }
 
+    // we will set it as saved and check mobx state for when saving is finished above
     setHasSaved(true);
   };
 

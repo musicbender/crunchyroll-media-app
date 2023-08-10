@@ -8,7 +8,7 @@ interface BtnProps {
 }
 
 export const BtnWrapper = styled.button<BtnProps>`
-  padding: 0.7rem 1rem;
+  padding: 0.83rem 1rem;
   font-size: ${rem(16)};
   background-color: ${rgba(theme.colors.orangeBase, 0.75)};
   border-radius: ${rem(25)};

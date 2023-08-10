@@ -7,6 +7,7 @@ const store = {
   mediaView: new MediaViewStore(),
 };
 
+/** Add store to global context and create a hook for easy implimentation */
 export const StoreContext = createContext(store);
 
 export const useStore = () => {

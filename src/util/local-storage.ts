@@ -1,6 +1,7 @@
 const testLocalStorage = '__storage_test__';
 let fallbackStorage: Map<string, any>;
 
+// util class for handling local storage actions
 export default class LocalStorageUtil {
   storage: null | any = null;
   hasLocalStorage = false;

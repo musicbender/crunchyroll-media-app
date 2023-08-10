@@ -44,3 +44,11 @@ export const CloseButton = styled.button`
     cursor: pointer;
   }
 `;
+
+export const ErrorText = styled.p`
+  margin: ${rem(16)} 0;
+  font-size: ${rem(16)};
+  font-weight: 700;
+  line-height: 1;
+  color: ${theme.colors.error};
+`;
