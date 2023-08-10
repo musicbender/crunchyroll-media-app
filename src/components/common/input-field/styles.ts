@@ -2,13 +2,13 @@ import { rem } from 'polished';
 import styled, { css } from 'styled-components';
 import theme from '../../../styles/theme';
 
-export type InputWrapperProps = {
+interface InputWrapperProps {
   hasIcon?: boolean;
-};
+}
 
-export type InputFieldProps = {
+interface InputFieldProps {
   hasError?: boolean;
-};
+}
 
 export const InputWrapper = styled.div<InputWrapperProps>`
   width: 100%;

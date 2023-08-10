@@ -35,7 +35,7 @@ export const SelectTrigger = styled(Select.SelectTrigger)`
   &:focus-visible,
   &[data-state='open'] {
     border-color: ${theme.colors.orangeDark};
-    outline: 1px solid ${theme.colors.orangeDark};
+    outline: ${rem(1)} solid ${theme.colors.orangeDark};
   }
 `;
 
@@ -64,7 +64,7 @@ export const StyledItem = styled(Select.Item)`
   margin-bottom: ${rem(8)};
   font-size: ${rem(16)};
   line-height: 1;
-  border-radius: ${rem(8)};
+  border-radius: ${rem(4)};
   align-items: center;
   outline: none;
 

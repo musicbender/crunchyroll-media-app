@@ -5,10 +5,10 @@ import { Theme } from '../types';
 import theme from './theme';
 import { rem } from 'polished';
 
-type GlobalStyles = {
+interface GlobalStyles {
   theme: Theme;
   media?: any;
-};
+}
 
 export default createGlobalStyle<GlobalStyles>`
   ${normalize}

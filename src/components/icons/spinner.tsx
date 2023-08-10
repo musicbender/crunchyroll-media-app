@@ -2,10 +2,10 @@
 import { forwardRef } from 'react';
 import theme from '../../styles/theme';
 
-type Props = {
+interface Props {
   fill?: string;
   size?: number;
-};
+}
 
 export const Spinner = forwardRef<HTMLDivElement, Props>(
   ({ fill = theme.colors.black, size = 48, ...rest }: Props, ref) => (

@@ -1,7 +1,7 @@
 import { ChangeEvent, forwardRef } from 'react';
 import { ErrorText, IconWrapper, InnerWrapper, Input, InputLabel, InputWrapper } from './styles';
 
-export type Props = Omit<JSX.IntrinsicElements['input'], 'ref'> & {
+type Props = Omit<JSX.IntrinsicElements['input'], 'ref'> & {
   type?: string;
   value?: unknown;
   id?: string;

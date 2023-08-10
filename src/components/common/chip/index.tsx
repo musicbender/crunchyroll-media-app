@@ -1,9 +1,9 @@
 import { FC, ReactNode } from 'react';
 import { ChipWrapper } from './styles';
 
-type Props = {
+interface Props {
   children?: ReactNode;
-};
+}
 
 const Chip: FC<Props> = ({ children }) => <ChipWrapper>{children}</ChipWrapper>;
 
